@@ -8,7 +8,7 @@
 
 
 
-void draw_board(SDL_Renderer *renderer) {
+void draw_board(SDL_Renderer *renderer,SDL_Rect tab[10][10]) {
         // draw a chess board on the window
     // 1st step: set the color of the renderer
     //nbadel loun el renderer (loun li bch ntraci bih)  => alwen bl RGB w lekhrenia opacity eki liktebtha ena m3netha full
@@ -25,17 +25,20 @@ void draw_board(SDL_Renderer *renderer) {
         int x = 0;
         int y = 0;
 
-        // Loop through each row and column to draw the chessboard
+        
+
+        //loop through each row and column to draw the chessboard
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 // Create a rectangle for each square
                 SDL_Rect squareRect = {x, y, squareSize, squareSize};
+                tab[row][col] = squareRect;
 
                 // Set the color of the square based on its position
                 if ((row + col) % 2 == 0) {
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE); // White color
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE); // White 
                 } else {
-                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE); // Black color
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE); // Black 
                 }
 
                 // Fill the square with the selected color

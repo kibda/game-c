@@ -51,12 +51,16 @@ if (SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &render
      SDL_ExitWithError("window and rederer creation");
 }
 
+// tab matrice nhot fih les rect te3i lkol
+    SDL_Rect board_Matrice_sdlRect[10][10];
 
 //step 1 : draw the board 
-    draw_board(renderer);
+    
+    draw_board(renderer,board_Matrice_sdlRect);
 
-//step 2 : place the soldiers
-
+//step 2 : place the soldiers of team A and B 
+Soldier* soldiers = malloc(30*sizeof(Soldier));
+init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
 
 
 
@@ -116,4 +120,4 @@ if (SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &render
 
 //lezm nincludi l .c lkol 
 
-//gcc src/board/board.c src/player/player.c src/soldier/soldier.c src/game/game.c src/main.c -o bin/prog -I include -L lib -lmingw32 -lSDL2main -lSDL2
+//gcc src/utils/utils.c src/board/board.c src/player/player.c src/soldier/soldier.c src/game/game.c src/main.c -o bin/prog -I include -L lib -lmingw32 -lSDL2main -lSDL2
