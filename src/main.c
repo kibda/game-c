@@ -100,9 +100,6 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
     //     SDL_ExitWithError("renderer deletion");
     // }
 
-
-
-
     
 
 
@@ -135,8 +132,11 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
                             {
                                 Position position_activated = {i, j};
                                 printf("Clicked on rectangle at board_Matrice_sdlRect[%d][%d]\n", i, j);
+                                //clear renderer
+                                // SDL_RenderClear(renderer);
+                                
                                 //printTest(active_player_move_positions,nb_active_player_move_positions);
-                                see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect);
+                                see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect,window);
                                 // for (int i = 0; i < *nb_active_player_move_positions; i++)
                                 // {
                                 //     printf("active_player_move_positions[%d] : %d %d\n",i,active_player_move_positions[i].i,active_player_move_positions[i].j);
@@ -144,8 +144,9 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
                                 // printf("nb_active_player_move_positions : %d\n",*nb_active_player_move_positions);
                             //    printf("nb_active_player_move_positions 2 : %d\n", nb_active_player_move_positions);
                             //     printf("i active_player_move_positions 1=%d\n", (active_player_move_positions)->i);
+                            
                           
-                          free(active_player_move_positions);  
+                        //   free(active_player_move_positions);  
                                 break;
                             }
                         }

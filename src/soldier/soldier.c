@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "soldier.h"
+#include "../game/game.h"
 
 //myfiles utils
 #include "../utils/utils.h"
@@ -107,9 +108,7 @@ int has_Soldier_Moving_Possibilities(Soldier* soldier) {
 }
 
 // See soldier moving possibilities
-void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10]) {
-    
-
+void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10],SDL_Window *window) {
     //nchf lblayes li les9in fiha ferghin wale 
     int i=soldier_pos.i;
     int j=soldier_pos.j;
@@ -208,7 +207,7 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
             *nb_active_player_move_positions += 1;
         }
     }
-    
+    redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
     //draw 
        SDL_Surface *image = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/moves/move1.bmp");
                                 if (image == NULL) {
@@ -232,9 +231,8 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
 
                             }
                             // Update the screen
-SDL_RenderPresent(renderer);
-
-
+                            SDL_RenderPresent(renderer);
+    
   }  
 
 
@@ -246,6 +244,37 @@ void move_Soldier(Soldier* soldier,Position new_position) {
     //nfaragh el rect eli fl position l9dima w ncopy texture w tswira fil pos jdida
 
 }
+
+
+
+void place_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10]){
+   
+        for (int i = 0; i < 30; i++) {
+            int pos_i = soldiers[i].position.i;
+            int pos_j = soldiers[i].position.j;
+            printf("pos_i=%d pos_j=%d \n", pos_i,pos_j);
+            SDL_Surface *image = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier1.bmp");
+            if (image == NULL) {
+                SDL_ExitWithError("Failed to load image");
+            }
+
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
+            SDL_FreeSurface(image);
+            if (texture == NULL) {
+                SDL_ExitWithError("Failed to create texture");
+            }
+
+            if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+                SDL_DestroyRenderer(renderer);
+                SDL_ExitWithError("Failed to render texture");
+            }
+        }
+
+        // Update the screen
+        SDL_RenderPresent(renderer);
+    }
+    
+
 
 
 /////////::: test ::::////////////
