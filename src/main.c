@@ -20,6 +20,10 @@
     SDL_RENDERER_TARGETTEXTURE => nrendri hasb texture mou3ayna
 */
 
+
+int nb_active_player_move_positions=0;
+Position* active_player_move_positions=NULL;
+
 void SDL_ExitWithError(const char *message);
 
 int main(int argc, char **argv) {
@@ -59,11 +63,31 @@ if (SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &render
     draw_board(renderer,board_Matrice_sdlRect);
 
 //step 2 : place the soldiers of team A and B 
-Soldier* soldiers = malloc(30*sizeof(Soldier));
+Soldier soldiers[30];
 init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
 
+// for (int i = 0; i < 30; i++)
+// {
+//     printf("soldier %d :  position : %d %d\n",i,soldiers[i].position.i,soldiers[i].position.j);
+    
+// }
 
 
+
+
+
+ //draw a red circle with a low opacity inside of the sdl rect board_Matrice_sdlRect[8][1] 
+ 
+//      if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[8][8]) != 0) {
+//                 SDL_DestroyRenderer(renderer);
+//                  SDL_ExitWithError("Failed to render texture");
+//                  free(soldiers);
+//              }
+
+
+//step 3 : check if the soldier clicked on has moving possibilities
+
+// see_Soldier_Moving_Possibilities(soldier,soldiers,active_player_move_positions,nb_active_player_move_positions)
 
 
 //-------------------------------------------------------------------------
@@ -76,6 +100,9 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
     //     SDL_ExitWithError("renderer deletion");
     // }
 
+
+
+
     
 
 
@@ -86,15 +113,47 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
     while (program_launched)
     {
         SDL_Event event;
-        while (SDL_PollEvent(&event)) //bch n9raw les types t3 events li sayrin lkool
+        while (SDL_PollEvent(&event))
         {
-            switch(event.type)
+            switch (event.type)
             {
-                case SDL_QUIT: //kil user yquiti
-                program_launched = SDL_FALSE;
-                break;
+                case SDL_QUIT:
+                    program_launched = SDL_FALSE;
+                    free(active_player_move_positions);
+                    break;
+
+                case SDL_MOUSEBUTTONDOWN:
+                    printf("mouse button down\n");
+                    int x, y;
+                    SDL_GetMouseState(&x, &y);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            SDL_Rect rect = board_Matrice_sdlRect[i][j];
+                            if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
+                            {
+                                Position position_activated = {i, j};
+                                printf("Clicked on rectangle at board_Matrice_sdlRect[%d][%d]\n", i, j);
+                                //printTest(active_player_move_positions,nb_active_player_move_positions);
+                                see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect);
+                                // for (int i = 0; i < *nb_active_player_move_positions; i++)
+                                // {
+                                //     printf("active_player_move_positions[%d] : %d %d\n",i,active_player_move_positions[i].i,active_player_move_positions[i].j);
+                                // }
+                                // printf("nb_active_player_move_positions : %d\n",*nb_active_player_move_positions);
+                            //    printf("nb_active_player_move_positions 2 : %d\n", nb_active_player_move_positions);
+                            //     printf("i active_player_move_positions 1=%d\n", (active_player_move_positions)->i);
+                          
+                          free(active_player_move_positions);  
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
                 default:
-                break;
+                    break;
             }
         }
     }
@@ -107,6 +166,9 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
     SDL_Quit(); // free allocated memory in the SDL PROJECT file
     return EXIT_SUCCESS;
 }
+
+
+
 
 
     
