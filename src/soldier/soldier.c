@@ -9,11 +9,10 @@
 #include "../utils/utils.h"
 
 //declare the teams 
-Team teamA;
-Team teamB;
-Team teamC;
-Team teamD;
-
+Team teamA = {'A', "GREEN", NULL};
+Team teamB = {'B', "RED", NULL};
+Team teamC = {'C', "PURPLE", NULL};
+Team teamD = {'D', "GREY", NULL};
 
 
 
@@ -27,7 +26,7 @@ void init_soldier(Soldier* soldier, Team team, Position position) {
 // Initialize all soldiers
 void init_all_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10]) {
     //team A 
-    SDL_Surface *image = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier1.bmp");
+    SDL_Surface *image = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier2.bmp");
     if (image == NULL) {
         SDL_ExitWithError("Failed to load image");
     }
@@ -39,7 +38,7 @@ void init_all_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *ren
     }
 
     //team b 
-    SDL_Surface *image2 = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier2.bmp");
+    SDL_Surface *image2 = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier1.bmp");
     if (image2 == NULL) {
         SDL_ExitWithError("Failed to load image");
     }
@@ -65,7 +64,7 @@ void init_all_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *ren
                 SDL_DestroyRenderer(renderer);
                  SDL_ExitWithError("Failed to render texture");
              }
-             init_soldier((soldiers+nb_soldiers),teamA,position);
+             init_soldier((soldiers+nb_soldiers),teamB,position);
              // printf("soldier %d :  position : %d %d\n",nb_soldiers,soldiers[nb_soldiers].position.i,soldiers[nb_soldiers].position.j);
              nb_soldiers++;
                 counter2--;  
@@ -86,7 +85,7 @@ void init_all_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *ren
                         SDL_DestroyRenderer(renderer);
                         SDL_ExitWithError("Failed to render texture");
                     }
-                    init_soldier(&soldiers[nb_soldiers],teamB,position);
+                    init_soldier(&soldiers[nb_soldiers],teamA,position);
                     // printf("soldier %d :  position : %d %d\n",nb_soldiers,soldiers[nb_soldiers].position.i,soldiers[nb_soldiers].position.j);
                     nb_soldiers++;
                     counter2--;
@@ -112,6 +111,23 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
     //nchf lblayes li les9in fiha ferghin wale 
     int i=soldier_pos.i;
     int j=soldier_pos.j;
+    Position initPos = {0,0};
+    Team initTeam = {'X',"X",NULL};
+    Soldier soldier={initTeam,initPos} ;
+    for (int ii = 0; ii < 30; ii++)
+        {
+            
+            if (soldiers[ii].position.i == i && soldiers[ii].position.j == j)
+            {
+                printf("soldier team: %c\n",soldiers[ii].team.name);
+                soldier = soldiers[ii];
+                break;
+                                }}
+    if (soldier.team.name != 'X')
+    {
+        
+    
+    
     Position Near_Positions[8];
     int near_positions_count = 0;
 
@@ -219,21 +235,63 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
                                 if (texture == NULL) {
                                     SDL_ExitWithError("Failed to create texture");
                                 }
+
+                                SDL_Surface *image2 = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/moves/move2.bmp");
+                                if (image2 == NULL) {
+                                    SDL_ExitWithError("Failed to load image");
+                                }
+
+                                SDL_Texture *texture2 = SDL_CreateTextureFromSurface(renderer, image2);
+                                SDL_FreeSurface(image2);
+                                if (texture2 == NULL) {
+                                    SDL_ExitWithError("Failed to create texture");
+                                }
                             for (int x = 0; x < *nb_active_player_move_positions; x++)
                             {
                                 int pos_i = (*active_player_move_positions+x)->i;
                                 int pos_j = (*active_player_move_positions+x)->j;
                                 printf("pos_i=%d pos_j=%d \n", pos_i,pos_j);
-                                if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
-                                    SDL_DestroyRenderer(renderer);
-                                    SDL_ExitWithError("Failed to render texture");
-                                }
+                               
+                            //find the soldier that has the position pos_i,pos_j
+                    
+                                    if (soldier.team.name == 'A')
+                                    {
+                                        printf("soldier team: %c\n",soldier.team.name);
+                                        if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+                                                                    SDL_DestroyRenderer(renderer);
+                                                                    SDL_ExitWithError("Failed to render texture");
+                                                                }
+                                    }
+                                    else if (soldier.team.name == 'B')
+                                    {
+                                        if (SDL_RenderCopy(renderer, texture2, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+                                                                    SDL_DestroyRenderer(renderer);
+                                                                    SDL_ExitWithError("Failed to render texture");
+                                                                }
+                                    }
+                                
+
+
+                                // if (soldiers[i].team.name == 'A')
+                                // {
+                                //     if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+                                //                                     SDL_DestroyRenderer(renderer);
+                                //                                     SDL_ExitWithError("Failed to render texture");
+                                //                                 }
+                                // }
+                                // else if (soldiers[i].team.name == 'B')
+                                // {
+                                //     if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+                                //                                     SDL_DestroyRenderer(renderer);
+                                //                                     SDL_ExitWithError("Failed to render texture");
+                                //                                 }
+                                // }
 
                             }
                             // Update the screen
                             SDL_RenderPresent(renderer);
     
-  }  
+  }  }
 
 
 
@@ -264,10 +322,32 @@ void place_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *render
                 SDL_ExitWithError("Failed to create texture");
             }
 
-            if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+             SDL_Surface *image2 = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier2.bmp");
+            if (image2 == NULL) {
+                SDL_ExitWithError("Failed to load image");
+            }
+
+            SDL_Texture *texture2 = SDL_CreateTextureFromSurface(renderer, image2);
+            SDL_FreeSurface(image2);
+            if (texture2 == NULL) {
+                SDL_ExitWithError("Failed to create texture");
+            }
+if (soldiers[i].team.name == 'A')
+{
+   if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
                 SDL_DestroyRenderer(renderer);
                 SDL_ExitWithError("Failed to render texture");
             }
+}
+else if (soldiers[i].team.name == 'B')
+{
+    if (SDL_RenderCopy(renderer, texture2, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
+                SDL_DestroyRenderer(renderer);
+                SDL_ExitWithError("Failed to render texture");
+            }
+}
+
+            
         }
 
         // Update the screen
