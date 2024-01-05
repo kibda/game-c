@@ -107,23 +107,23 @@ int has_Soldier_Moving_Possibilities(Soldier* soldier) {
 }
 
 // See soldier moving possibilities
-void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10],SDL_Window *window) {
+void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10],SDL_Window *window,Soldier* soldier) {
     //nchf lblayes li les9in fiha ferghin wale 
     int i=soldier_pos.i;
     int j=soldier_pos.j;
-    Position initPos = {0,0};
-    Team initTeam = {'X',"X",NULL};
-    Soldier soldier={initTeam,initPos} ;
+    // Position initPos = {0,0};
+    // Team initTeam = {'X',"X",NULL};
+    // Soldier soldier=*active_soldier ;
     for (int ii = 0; ii < 30; ii++)
         {
             
             if (soldiers[ii].position.i == i && soldiers[ii].position.j == j)
             {
                 printf("soldier team: %c\n",soldiers[ii].team.name);
-                soldier = soldiers[ii];
+                *soldier = soldiers[ii];
                 break;
                                 }}
-    if (soldier.team.name != 'X')
+    if (soldier->team.name != 'X')
     {
         
     
@@ -199,10 +199,10 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
         SDL_ExitWithError("Failed to allocate memory");
     }
 
-    (*active_player_move_positions)->i = 5;
-    (*active_player_move_positions)->j = 5;
+    // (*active_player_move_positions)->i = 5;
+    // (*active_player_move_positions)->j = 5;
 
-    printf("i active_player_move_positions 1=%d\n", (*active_player_move_positions)->i);
+    // printf("i active_player_move_positions 1=%d\n", (*active_player_move_positions)->i);
 
 
     for (int y = 0; y < near_positions_count; y++)
@@ -254,16 +254,17 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
                                
                             //find the soldier that has the position pos_i,pos_j
                     
-                                    if (soldier.team.name == 'A')
+                                    if (soldier->team.name == 'A')
                                     {
-                                        printf("soldier team: %c\n",soldier.team.name);
+                                        printf("soldier team: %c\n",soldier->team.name);
                                         if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
                                                                     SDL_DestroyRenderer(renderer);
                                                                     SDL_ExitWithError("Failed to render texture");
                                                                 }
                                     }
-                                    else if (soldier.team.name == 'B')
+                                    else if (soldier->team.name == 'B')
                                     {
+                                        printf("soldier team: %c\n",soldier->team.name);
                                         if (SDL_RenderCopy(renderer, texture2, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
                                                                     SDL_DestroyRenderer(renderer);
                                                                     SDL_ExitWithError("Failed to render texture");
@@ -297,9 +298,19 @@ void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],
 
 
 // Move the soldier
-void move_Soldier(Soldier* soldier,Position new_position) {
-    soldier->position = new_position;
-    //nfaragh el rect eli fl position l9dima w ncopy texture w tswira fil pos jdida
+void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30]) {
+    // soldier->position = new_position;
+    //find the soldier in soldiers and move it to new_position
+    for (int i = 0; i < 30; i++)
+    {
+        if (soldiers[i].position.i == soldier->position.i && soldiers[i].position.j == soldier->position.j)
+        {
+            soldiers[i].position.i = new_position.i;
+            soldiers[i].position.j = new_position.j;
+            break;
+        }
+    }
+
 
 }
 
@@ -310,7 +321,7 @@ void place_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *render
         for (int i = 0; i < 30; i++) {
             int pos_i = soldiers[i].position.i;
             int pos_j = soldiers[i].position.j;
-            printf("pos_i=%d pos_j=%d \n", pos_i,pos_j);
+            //printf("pos_i=%d pos_j=%d \n", pos_i,pos_j);
             SDL_Surface *image = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/soldiers/soldier1.bmp");
             if (image == NULL) {
                 SDL_ExitWithError("Failed to load image");
@@ -354,6 +365,113 @@ else if (soldiers[i].team.name == 'B')
         SDL_RenderPresent(renderer);
     }
     
+
+
+///////// new move possiblities /////////////
+void see_close_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Rect board_Matrice_sdlRect[10][10],Soldier* soldier) {
+    //nchf lblayes li les9in fiha ferghin wale 
+    int i=soldier_pos.i;
+    int j=soldier_pos.j;
+
+    //find the soldier that has the position pos_i,pos_j and change ACTIVE_SOLDIER so i can move it later 
+    for (int ii = 0; ii < 30; ii++)
+        {
+            
+            if (soldiers[ii].position.i == i && soldiers[ii].position.j == j)
+            {
+                // printf("soldier team: %c\n",soldiers[ii].team.name);
+                *soldier = soldiers[ii];
+                break;
+                                }}
+
+    //close positions 
+       Position Near_Positions[8];
+    int near_positions_count = 0;
+
+    if (i - 1 >= 0 && j >= 0 && j <= 9) {
+        Near_Positions[near_positions_count].i = i - 1;
+        Near_Positions[near_positions_count].j = j;
+        near_positions_count++;
+    }
+
+    if (i + 1 <= 9 && j >= 0 && j <= 9) {
+        Near_Positions[near_positions_count].i = i + 1;
+        Near_Positions[near_positions_count].j = j;
+        near_positions_count++;
+    }
+
+    if (i >= 0 && i <= 9 && j - 1 >= 0) {
+        Near_Positions[near_positions_count].i = i;
+        Near_Positions[near_positions_count].j = j - 1;
+        near_positions_count++;
+    }
+
+    if (i >= 0 && i <= 9 && j + 1 <= 9) {
+        Near_Positions[near_positions_count].i = i;
+        Near_Positions[near_positions_count].j = j + 1;
+        near_positions_count++;
+    }
+
+    if (i + 1 <= 9 && j + 1 <= 9) {
+        Near_Positions[near_positions_count].i = i + 1;
+        Near_Positions[near_positions_count].j = j + 1;
+        near_positions_count++;
+    }
+
+    if (i - 1 >= 0 && j + 1 <= 9) {
+        Near_Positions[near_positions_count].i = i - 1;
+        Near_Positions[near_positions_count].j = j + 1;
+        near_positions_count++;
+    }
+
+    if (i + 1 <= 9 && j - 1 >= 0) {
+        Near_Positions[near_positions_count].i = i + 1;
+        Near_Positions[near_positions_count].j = j - 1;
+        near_positions_count++;
+    }
+
+    if (i - 1 >= 0 && j - 1 >= 0) {
+        Near_Positions[near_positions_count].i = i - 1;
+        Near_Positions[near_positions_count].j = j - 1;
+        near_positions_count++;
+    }
+    free(*active_player_move_positions);
+    *active_player_move_positions = NULL;
+    *nb_active_player_move_positions = 0;
+    *active_player_move_positions = malloc(8 *sizeof(Position));
+    if (*active_player_move_positions == NULL) {
+        // Handle memory allocation failure
+        SDL_ExitWithError("Failed to allocate memory");
+    }
+
+//nchf eli possible nbadel fihom w nbadel values ta3 lpointers
+    for (int y = 0; y < near_positions_count; y++)
+    {
+        int isOccupied = 0;
+        for (int x = 0; x < 30; x++)
+        {
+            if (soldiers[x].position.i == Near_Positions[y].i && soldiers[x].position.j == Near_Positions[y].j)
+            {
+                isOccupied = 1;
+                break;
+            }
+        }
+        if (!isOccupied)
+        {
+            
+            (*active_player_move_positions + *nb_active_player_move_positions)->i = Near_Positions[y].i;
+            (*active_player_move_positions + *nb_active_player_move_positions)->j = Near_Positions[y].j;
+            *nb_active_player_move_positions += 1;
+            // printf( "active_player_move_positions %d %d\n",(*active_player_move_positions + *nb_active_player_move_positions)->i,(*active_player_move_positions + *nb_active_player_move_positions)->j);
+        }
+    }
+
+
+}
+
+
+
+
 
 
 

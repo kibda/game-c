@@ -23,6 +23,11 @@
 
 int nb_active_player_move_positions=0;
 Position* active_player_move_positions=NULL;
+Team active_player_team={'A', "GREEN", NULL};
+int move_positions_activated=0;
+Soldier active_soldier={{'X', "X", NULL},{0,0}};
+
+
 
 void SDL_ExitWithError(const char *message);
 
@@ -132,11 +137,215 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
                             {
                                 Position position_activated = {i, j};
                                 printf("Clicked on rectangle at board_Matrice_sdlRect[%d][%d]\n", i, j);
+
+                                //step 1 : test if possibilites are activated or not => move to test if soldier or nothing 
+                                if (move_positions_activated==1)
+                                {
+                                    //possibilities activated
+                                    printf("possibilities activated\n");
+                                    //step 1.1 : test if the position clicked is one a soldier position or a possible moving position
+                                int position_activated_is_a_soldier_position=0;
+                                for (int i = 0; i < 30; i++)
+                                {
+                                    if(position_activated.i==soldiers[i].position.i && position_activated.j==soldiers[i].position.j){
+                                        position_activated_is_a_soldier_position=1;
+                                        break;
+                                    }
+                                }
+                                //step 1.2 : test if the position clicked is one a soldier position or a possible moving position
+                                int position_activated_is_a_possible_moving_position=0;
+                                for (int i = 0; i < nb_active_player_move_positions; i++)
+                                {
+                                    if(position_activated.i==active_player_move_positions[i].i && position_activated.j==active_player_move_positions[i].j){
+                                        position_activated_is_a_possible_moving_position=1;
+                                        break;
+                                    }
+                                }
+
+                                
+                            //main if 
+                                if (position_activated_is_a_soldier_position==1)
+                                {
+                                    printf("a soldier position\n"); 
+                                    //step 2 : check if the soldier is from the active player team
+                                    int position_activated_is_from_active_player_team=0;
+                                    for (int i = 0; i < 30; i++)
+                                    {
+                                        if(position_activated.i==soldiers[i].position.i && position_activated.j==soldiers[i].position.j){
+                                            if(soldiers[i].team.name==active_player_team.name){
+                                                position_activated_is_from_active_player_team=1;
+                                                active_soldier=soldiers[i];
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    //main if 2 
+                                    if (position_activated_is_from_active_player_team==1)
+                                    {
+                                        printf("active player team\n");
+                                        //see close possibilities
+                                         //see close possibilities
+                                         free(active_player_move_positions);
+                                            active_player_move_positions=NULL;
+                                            see_close_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,&active_soldier);
+                                            //print all possibilities
+                                                    for (int zzz = 0; zzz < nb_active_player_move_positions; zzz++)
+                                                    {
+                                                        printf("active_player_move_positions[%d] : %d %d\n",zzz,active_player_move_positions[zzz].i,active_player_move_positions[zzz].j);
+                                                    }
+                                            //clear renderer
+                                            SDL_RenderClear(renderer);
+                                            //redraw game
+                                            redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
+                                            //draw possibilities
+                                            draw_possibilities(&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,renderer,window,&active_soldier);
+
+                                    }
+            
+                                }
+                                else if(position_activated_is_a_possible_moving_position==1) {
+                                   printf("possible moving possition\n"); 
+                                   //move soldier
+                                      move_Soldier(&active_soldier,position_activated,soldiers);
+                                    //clear renderer
+                                    SDL_RenderClear(renderer);
+                                   //redraw game
+                                    redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
+                                   move_positions_activated=0;
+                                   //change the active team 
+                                   if (active_soldier.team.name=='A')
+                                   {
+                                    active_player_team.name = 'B';
+                                    active_player_team.color = "RED";
+                                    active_player_team.TeamCamp = NULL;
+                                   }
+                                   else
+                                   {
+                                    active_player_team.name = 'A';
+                                    active_player_team.color = "GREEN";
+                                    active_player_team.TeamCamp = NULL;
+                                   }
+                                   
+
+                                }
+
+                                }else{
+                                    printf("possibilities not activated\n");
+                                    //possibilities not activated
+                                    //test if the active position is a soldier or not 
+                                    int position_activated_is_a_soldier_position=0;
+                                    for (int i = 0; i < 30; i++)
+                                    {
+                                        if(position_activated.i==soldiers[i].position.i && position_activated.j==soldiers[i].position.j){
+                                            position_activated_is_a_soldier_position=1;
+                                            break;
+                                        }}
+                                    if (position_activated_is_a_soldier_position==1)
+                                    {
+                                        printf("a soldier position\n");
+                                        //step 2 : check if the soldier is from the active player team
+                                        int position_activated_is_from_active_player_team=0;
+                                        for (int i = 0; i < 30; i++)
+                                        {
+                                            if(position_activated.i==soldiers[i].position.i && position_activated.j==soldiers[i].position.j){
+                                                if(soldiers[i].team.name==active_player_team.name){
+                                                    position_activated_is_from_active_player_team=1;
+                                                    active_soldier=soldiers[i];
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (position_activated_is_from_active_player_team==1)
+                                        {
+
+                                            //see close possibilities
+                                            free(active_player_move_positions);
+                                            active_player_move_positions=NULL;
+                                            see_close_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,&active_soldier);
+                                                    //print all possibilities
+                                                    for (int zzz = 0; zzz < nb_active_player_move_positions; zzz++)
+                                                    {
+                                                        printf("active_player_move_positions[%d] : %d %d\n",zzz,active_player_move_positions[zzz].i,active_player_move_positions[zzz].j);
+                                                    }
+
+                                            //clear renderer
+                                            SDL_RenderClear(renderer);
+                                            //redraw game
+                                            redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
+                                            //draw possibilities
+                                            draw_possibilities(&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,renderer,window,&active_soldier);
+                                            move_positions_activated=1;
+                                        }
+                                        
+                                    }
+                                    else{
+                                        printf("not a soldier position 2\n");
+                                    }
+                                    
+                                    
+
+                                 } 
+                                 
+                                 
+                                 
+                                
+
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 //clear renderer
                                 // SDL_RenderClear(renderer);
                                 
                                 //printTest(active_player_move_positions,nb_active_player_move_positions);
-                                see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect,window);
+
+                                //test if the position clicked is one of the active player move positions
+                                // int position_activated_is_active_player_move_position=0;
+                                // for (int i = 0; i < nb_active_player_move_positions; i++)
+                                // {
+                                //     if(position_activated.i==active_player_move_positions[i].i && position_activated.j==active_player_move_positions[i].j){
+                                //         position_activated_is_active_player_move_position=1;
+                                //         break;
+                                //     }
+                                // }
+                                // //test if the position clicked is anothyer soldier position
+                                // int position_activated_is_another_soldier_position=0;
+                                // for (int i = 0; i < 30; i++)
+                                // {
+                                //     if(position_activated.i==soldiers[i].position.i && position_activated.j==soldiers[i].position.j){
+                                //         position_activated_is_another_soldier_position=1;
+                                //         break;
+                                //     }
+                                // }
+
+                                // if(move_positions_activated==1 && position_activated_is_active_player_move_position ){
+                                    
+                                //     move_Soldier(&active_soldier,position_activated,soldiers);
+                                //     redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
+                                //     move_positions_activated=0;
+                                //     active_soldier.team.name = 'X';
+                                //     active_soldier.position.i = 0;
+                                //     active_soldier.position.j = 0;
+                                // }else if(move_positions_activated==0 ){
+                                //     //step 3 : check if the soldier clicked on has moving possibilities
+                                //     see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect,window,&active_soldier);
+                                //     if (active_soldier.team.name!='X')
+                                //     {
+                                //         move_positions_activated=1;
+                                //         //position_activated_is_another_soldier_position==0;
+                                //     }
+                                    
+                                    
+                                    
+                                // }
+
+                                    
+                                
+                               // see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect,window);
                                 // for (int i = 0; i < *nb_active_player_move_positions; i++)
                                 // {
                                 //     printf("active_player_move_positions[%d] : %d %d\n",i,active_player_move_positions[i].i,active_player_move_positions[i].j);
@@ -146,7 +355,7 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
                             //     printf("i active_player_move_positions 1=%d\n", (active_player_move_positions)->i);
                             
                           
-                        //   free(active_player_move_positions);  
+                        //    free(active_player_move_positions);  
                                 break;
                             }
                         }

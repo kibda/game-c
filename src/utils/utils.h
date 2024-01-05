@@ -25,6 +25,7 @@ typedef struct Team{
 
 
 
+
 //exit with error SDL fct
 void SDL_ExitWithError(const char* message);
 
