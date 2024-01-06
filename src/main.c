@@ -21,6 +21,14 @@
 */
 
 
+//init teams
+Team team_A = {'A', "GREEN", NULL};
+Team team_B = {'B', "RED", NULL};
+// Team allTeams[2];
+// allTeams[0] = teamA;
+// allTeams[1] = teamB;
+
+
 int nb_active_player_move_positions=0;
 Position* active_player_move_positions=NULL;
 Team active_player_team={'A', "GREEN", NULL};
@@ -47,7 +55,7 @@ int main(int argc, char **argv) {
     SDL_Renderer *renderer = NULL;
 
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVERYTHING) != 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
        SDL_ExitWithError("Initialisation SDL"); 
     }
 
@@ -64,35 +72,23 @@ if (SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &render
     SDL_Rect board_Matrice_sdlRect[10][10];
 
 //step 1 : draw the board 
-    
-    draw_board(renderer,board_Matrice_sdlRect);
+draw_board(renderer,board_Matrice_sdlRect);
 
 //step 2 : place the soldiers of team A and B 
 Soldier soldiers[30];
-init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
+init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect,&team_A,&team_B);
 
-// for (int i = 0; i < 30; i++)
-// {
-//     printf("soldier %d :  position : %d %d\n",i,soldiers[i].position.i,soldiers[i].position.j);
-    
-// }
+//show teamCamps of every team 
 
-
-
-
-
- //draw a red circle with a low opacity inside of the sdl rect board_Matrice_sdlRect[8][1] 
+for (int i = 0; i < 15; i++)
+{
+    printf("teamB position : %d %d\n",team_B.TeamCamp[i].i,team_B.TeamCamp[i].j);
+}
+for (int i = 0; i < 15; i++)
+{
+    printf("teamA position : %d %d\n",team_A.TeamCamp[i].i,team_A.TeamCamp[i].j);
+}
  
-//      if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[8][8]) != 0) {
-//                 SDL_DestroyRenderer(renderer);
-//                  SDL_ExitWithError("Failed to render texture");
-//                  free(soldiers);
-//              }
-
-
-//step 3 : check if the soldier clicked on has moving possibilities
-
-// see_Soldier_Moving_Possibilities(soldier,soldiers,active_player_move_positions,nb_active_player_move_positions)
 
 
 //-------------------------------------------------------------------------
@@ -105,7 +101,7 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
     //     SDL_ExitWithError("renderer deletion");
     // }
 
-    
+   
 
 
     //nkhali lwindow ma7loul 5sec
@@ -206,7 +202,7 @@ init_all_soldiers(soldiers,window,renderer,board_Matrice_sdlRect);
                                 else if(position_activated_is_a_possible_moving_position==1) {
                                    printf("possible moving possition\n"); 
                                    //move soldier
-                                      move_Soldier(&active_soldier,position_activated,soldiers);
+                                      move_Soldier(&active_soldier,position_activated,soldiers,&team_A,&team_B,renderer,window);
                                     //clear renderer
                                     SDL_RenderClear(renderer);
                                    //redraw game

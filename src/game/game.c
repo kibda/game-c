@@ -71,3 +71,105 @@ void draw_possibilities(Position** active_player_move_positions,int* nb_active_p
 SDL_RenderPresent(renderer);
 
 }
+
+
+
+void draw_end_game(SDL_Renderer *renderer,SDL_Window *window,Team winning_team){
+
+    SDL_Surface *image=NULL;
+    SDL_Texture *texture= NULL;
+
+    image =SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/end/background_end.bmp");
+    if(image==NULL){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("background not loading");
+    }
+    //sn3na texture f SDL
+    texture = SDL_CreateTextureFromSurface(renderer, image);
+    SDL_FreeSurface(image);
+    if(texture==NULL){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("texture not being created");
+    }
+
+    //taw bch nchargiwha fel memoire texture hedhi
+    SDL_Rect rectangle3;
+    
+    if(SDL_QueryTexture(texture,NULL,NULL,&rectangle3.w,&rectangle3.h)!=0){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("chargement texture");
+    }
+
+    //ncenter fil image 
+    rectangle3.x = (650 - rectangle3.w) / 2;
+    rectangle3.y = (650| - rectangle3.h) / 2;
+
+    //nwari taswira background
+   
+    if( SDL_RenderCopy(renderer,texture,NULL,&rectangle3)!=0){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("impossible d'afficher texture");
+    }
+
+    SDL_Surface *image2=NULL;
+    SDL_Texture *texture2= NULL;
+
+    image2 =SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/end/player_1_won.bmp");
+    if(image2==NULL){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("background not loading");
+    }
+    //sn3na texture f SDL
+    texture2 = SDL_CreateTextureFromSurface(renderer, image2);
+    SDL_FreeSurface(image2);
+    if(texture2==NULL){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("texture not being created");
+    }
+
+    ////b won 
+    SDL_Surface *image3=NULL;
+    SDL_Texture *texture3= NULL;
+
+    image3 =SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/end/player_2_won.bmp");
+    if(image3==NULL){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("background not loading");
+    }
+    //sn3na texture f SDL
+    texture3 = SDL_CreateTextureFromSurface(renderer, image3);
+    SDL_FreeSurface(image3);
+    if(texture3==NULL){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("texture not being created");
+    }
+
+    if (winning_team.name == 'A')
+    {
+        if( SDL_RenderCopy(renderer,texture2,NULL,&rectangle3)!=0){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("impossible d'afficher texture");
+    }
+    }
+    else
+    {
+        if( SDL_RenderCopy(renderer,texture3,NULL,&rectangle3)!=0){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_ExitWithError("impossible d'afficher texture");
+    }
+    }
+    
+
+    // Update the screen
+SDL_RenderPresent(renderer);
+}
