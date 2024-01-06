@@ -354,7 +354,7 @@ void play_sound(const char* sound_file) {
 }
 
 // Check if soldier has moving possibilities
-int has_Soldier_Moving_Possibilities(Soldier* soldier) {
+int has_Soldier_Moving_Possibilities(Soldier* soldier,Soldier soldiers[30]) {
     //nchf lblayes li les9in fiha ferghin wale
     int i = soldier->position.i;
     int j = soldier->position.j;
@@ -410,23 +410,24 @@ int has_Soldier_Moving_Possibilities(Soldier* soldier) {
 
     int nb_active_player_move_positions = 0;
 
-    //nchf eli possible nbadel fihom w nbadel values ta3 lpointers
     for (int y = 0; y < near_positions_count; y++)
     {
         int isOccupied = 0;
-        
-            if ((*soldier).position.i == Near_Positions[y].i && (*soldier).position.j == Near_Positions[y].j)
+        for (int x = 0; x < 30; x++)
+        {
+            if (soldiers[x].position.i == Near_Positions[y].i && soldiers[x].position.j == Near_Positions[y].j)
             {
                 isOccupied = 1;
                 break;
             }
-        
+        }
         if (!isOccupied)
-        {
-            nb_active_player_move_positions ++;
-            // printf( "active_player_move_positions %d %d\n",(*active_player_move_positions + *nb_active_player_move_positions)->i,(*active_player_move_positions + *nb_active_player_move_positions)->j);
+        {    
+            nb_active_player_move_positions += 1;
         }
     }
+
+   
     
     if (nb_active_player_move_positions > 0)
     {
@@ -497,6 +498,7 @@ int check_team_took_other_team_positions(Soldier soldiers[30],Team* team_A,Team*
 
 
 int check_other_team_cant_move(Soldier soldiers[30],Team active_team){
+    printf("active_team.name=%c\n",active_team.name);
     int other_team_cant_move=0;
     if (active_team.name == 'B')
     {
@@ -504,7 +506,7 @@ int check_other_team_cant_move(Soldier soldiers[30],Team active_team){
         {
             if (soldiers[i].team.name == 'A')
             {
-                if (has_Soldier_Moving_Possibilities(&soldiers[i]) == 0)
+                if (has_Soldier_Moving_Possibilities(&soldiers[i],soldiers) == 0)
                 {
                     other_team_cant_move++;
                 }
@@ -512,6 +514,7 @@ int check_other_team_cant_move(Soldier soldiers[30],Team active_team){
             }
             
         }
+        printf("other_team_cant_move A=%d\n",other_team_cant_move);
         if (other_team_cant_move == 15)
         {
             return 1;
@@ -526,7 +529,7 @@ int check_other_team_cant_move(Soldier soldiers[30],Team active_team){
         {
             if (soldiers[i].team.name == 'B')
             {
-                if (has_Soldier_Moving_Possibilities(&soldiers[i]) == 0)
+                if (has_Soldier_Moving_Possibilities(&soldiers[i],soldiers) == 0)
                 {
                     other_team_cant_move++;
                 }
@@ -534,6 +537,7 @@ int check_other_team_cant_move(Soldier soldiers[30],Team active_team){
             }
             
         }
+         printf("other_team_cant_move B=%d\n",other_team_cant_move);
         if (other_team_cant_move == 15)
         {
             return 1;
@@ -548,7 +552,7 @@ int check_other_team_cant_move(Soldier soldiers[30],Team active_team){
 
 
 // Move the soldier
-void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30],Team* team_A,Team* team_B ,SDL_Renderer *renderer,SDL_Window *window) {
+void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30],Team* team_A,Team* team_B ,SDL_Renderer *renderer,SDL_Window *window,int* game_on) {
     // soldier->position = new_position;
     //find the soldier in soldiers and move it to new_position
     for (int i = 0; i < 30; i++)
@@ -573,6 +577,7 @@ void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30],Te
                if (A_won == 1)
                {
                 //stop the game and show the winner A
+                *game_on = 0;
                 printf("A won\n");
                 draw_end_game(renderer,window,*team_A);
                }
@@ -592,6 +597,7 @@ void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30],Te
                 if (B_won == 1)
                {
                 //stop the game and show the winner B
+                *game_on = 0;
                 printf("B won\n");
                  draw_end_game(renderer,window,*team_B);
                }
@@ -601,21 +607,34 @@ void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30],Te
     }
 
 
+//see if the other team cant move
     if (check_other_team_cant_move(soldiers,soldier->team) == 1)
     {
         if (soldier->team.name == 'A')
         {
+            *game_on = 0;
             printf("A won\n");
             draw_end_game(renderer,window,*team_A);
         }
         else if (soldier->team.name == 'B')
         {
+            *game_on = 0;
             printf("B won\n");
             draw_end_game(renderer,window,*team_B);
         }
         
     }
     
+for (int i = 0; i < 30; i++)
+{
+    if (soldiers[i].position.i == 4 && soldiers[i].position.j == 0)
+    {
+        printf(" pos 4 0 has mov poss=%d\n",has_Soldier_Moving_Possibilities(&soldiers[i],soldiers));
+    }
+    
+}
+
+
  
     
 

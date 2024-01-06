@@ -28,6 +28,8 @@ Team team_B = {'B', "RED", NULL};
 // allTeams[0] = teamA;
 // allTeams[1] = teamB;
 
+int game_on=1;
+
 
 int nb_active_player_move_positions=0;
 Position* active_player_move_positions=NULL;
@@ -189,12 +191,17 @@ for (int i = 0; i < 15; i++)
                                                     {
                                                         printf("active_player_move_positions[%d] : %d %d\n",zzz,active_player_move_positions[zzz].i,active_player_move_positions[zzz].j);
                                                     }
+                                        if (game_on==1)
+                                        {
                                             //clear renderer
                                             SDL_RenderClear(renderer);
                                             //redraw game
                                             redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
                                             //draw possibilities
                                             draw_possibilities(&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,renderer,window,&active_soldier);
+                                        }
+                                        
+                                            
 
                                     }
             
@@ -202,7 +209,9 @@ for (int i = 0; i < 15; i++)
                                 else if(position_activated_is_a_possible_moving_position==1) {
                                    printf("possible moving possition\n"); 
                                    //move soldier
-                                      move_Soldier(&active_soldier,position_activated,soldiers,&team_A,&team_B,renderer,window);
+                                      move_Soldier(&active_soldier,position_activated,soldiers,&team_A,&team_B,renderer,window,&game_on);
+                                      if (game_on==1)
+                                        {
                                     //clear renderer
                                     SDL_RenderClear(renderer);
                                    //redraw game
@@ -223,7 +232,7 @@ for (int i = 0; i < 15; i++)
                                    }
                                    
 
-                                }
+                                }}
 
                                 }else{
                                     printf("possibilities not activated\n");
@@ -264,7 +273,8 @@ for (int i = 0; i < 15; i++)
                                                     {
                                                         printf("active_player_move_positions[%d] : %d %d\n",zzz,active_player_move_positions[zzz].i,active_player_move_positions[zzz].j);
                                                     }
-
+                                    if (game_on==1)
+                                        {
                                             //clear renderer
                                             SDL_RenderClear(renderer);
                                             //redraw game
@@ -272,7 +282,7 @@ for (int i = 0; i < 15; i++)
                                             //draw possibilities
                                             draw_possibilities(&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,renderer,window,&active_soldier);
                                             move_positions_activated=1;
-                                        }
+                                        } }
                                         
                                     }
                                     else{

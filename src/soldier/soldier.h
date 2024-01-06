@@ -23,13 +23,13 @@ typedef struct Soldier {
     void init_all_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10],Team* team_A,Team* team_B);
 
     // check of soldier has moving possibilities
-    int has_Soldier_Moving_Possibilities(Soldier* soldier);
+    int has_Soldier_Moving_Possibilities(Soldier* soldier,Soldier soldiers[30]);
 
     // les possb li ynjm yt7arakhom
 //void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10],SDL_Window *window,Soldier* active_soldier);
     
     // Function pointer for moving the soldier
-    void move_Soldier(struct Soldier* soldier,Position new_position,Soldier soldiers[30],Team* team_A,Team* team_B,SDL_Renderer *renderer,SDL_Window *window);
+    void move_Soldier(struct Soldier* soldier,Position new_position,Soldier soldiers[30],Team* team_A,Team* team_B,SDL_Renderer *renderer,SDL_Window *window,int* game_on);
 
 
 void place_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10]);
