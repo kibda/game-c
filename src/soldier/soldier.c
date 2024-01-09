@@ -117,195 +117,6 @@ void init_all_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *ren
 
 
 
-// See soldier moving possibilities
-// void see_Soldier_Moving_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10],SDL_Window *window,Soldier* soldier) {
-//     //nchf lblayes li les9in fiha ferghin wale 
-//     int i=soldier_pos.i;
-//     int j=soldier_pos.j;
-//     // Position initPos = {0,0};
-//     // Team initTeam = {'X',"X",NULL};
-//     // Soldier soldier=*active_soldier ;
-//     for (int ii = 0; ii < 30; ii++)
-//         {
-            
-//             if (soldiers[ii].position.i == i && soldiers[ii].position.j == j)
-//             {
-//                 printf("soldier team: %c\n",soldiers[ii].team.name);
-//                 *soldier = soldiers[ii];
-//                 break;
-//                                 }}
-//     if (soldier->team.name != 'X')
-//     {
-        
-    
-    
-//     Position Near_Positions[8];
-//     int near_positions_count = 0;
-
-//     if (i - 1 >= 0 && j >= 0 && j <= 9) {
-//         Near_Positions[near_positions_count].i = i - 1;
-//         Near_Positions[near_positions_count].j = j;
-//         near_positions_count++;
-//     }
-
-//     if (i + 1 <= 9 && j >= 0 && j <= 9) {
-//         Near_Positions[near_positions_count].i = i + 1;
-//         Near_Positions[near_positions_count].j = j;
-//         near_positions_count++;
-//     }
-
-//     if (i >= 0 && i <= 9 && j - 1 >= 0) {
-//         Near_Positions[near_positions_count].i = i;
-//         Near_Positions[near_positions_count].j = j - 1;
-//         near_positions_count++;
-//     }
-
-//     if (i >= 0 && i <= 9 && j + 1 <= 9) {
-//         Near_Positions[near_positions_count].i = i;
-//         Near_Positions[near_positions_count].j = j + 1;
-//         near_positions_count++;
-//     }
-
-//     if (i + 1 <= 9 && j + 1 <= 9) {
-//         Near_Positions[near_positions_count].i = i + 1;
-//         Near_Positions[near_positions_count].j = j + 1;
-//         near_positions_count++;
-//     }
-
-//     if (i - 1 >= 0 && j + 1 <= 9) {
-//         Near_Positions[near_positions_count].i = i - 1;
-//         Near_Positions[near_positions_count].j = j + 1;
-//         near_positions_count++;
-//     }
-
-//     if (i + 1 <= 9 && j - 1 >= 0) {
-//         Near_Positions[near_positions_count].i = i + 1;
-//         Near_Positions[near_positions_count].j = j - 1;
-//         near_positions_count++;
-//     }
-
-//     if (i - 1 >= 0 && j - 1 >= 0) {
-//         Near_Positions[near_positions_count].i = i - 1;
-//         Near_Positions[near_positions_count].j = j - 1;
-//         near_positions_count++;
-//     }
-//     printf("soldier pos : %d %d\n",i,j);
-//     for (int x = 0; x < near_positions_count; x++)
-//     {
-//          printf("near pos : %d %d\n",Near_Positions[x].i,Near_Positions[x].j);
-//     }
-//     // nb_active_player_move_positions = malloc(sizeof(int));
-//     // if (nb_active_player_move_positions == NULL) {
-//     //     // Handle memory allocation failure
-//     //     SDL_ExitWithError("Failed to allocate memory");
-//     // }
-//     // *nb_active_player_move_positions = near_positions_count;
-//     // printf("nb_active_player_move_positions 1 : %d\n", *nb_active_player_move_positions);
-
-
-// *nb_active_player_move_positions = 0;
-//     *active_player_move_positions = malloc(sizeof(Position));
-//     if (*active_player_move_positions == NULL) {
-//         // Handle memory allocation failure
-//         SDL_ExitWithError("Failed to allocate memory");
-//     }
-
-//     // (*active_player_move_positions)->i = 5;
-//     // (*active_player_move_positions)->j = 5;
-
-//     // printf("i active_player_move_positions 1=%d\n", (*active_player_move_positions)->i);
-
-
-//     for (int y = 0; y < near_positions_count; y++)
-//     {
-//         int isOccupied = 0;
-//         for (int x = 0; x < 30; x++)
-//         {
-//             if (soldiers[x].position.i == Near_Positions[y].i && soldiers[x].position.j == Near_Positions[y].j)
-//             {
-//                 isOccupied = 1;
-//                 break;
-//             }
-//         }
-//         if (!isOccupied)
-//         {
-//             (*active_player_move_positions + *nb_active_player_move_positions)->i = Near_Positions[y].i;
-//             (*active_player_move_positions + *nb_active_player_move_positions)->j = Near_Positions[y].j;
-//             *nb_active_player_move_positions += 1;
-//         }
-//     }
-//     redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
-//     //draw 
-//        SDL_Surface *image = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/moves/move1.bmp");
-//                                 if (image == NULL) {
-//                                     SDL_ExitWithError("Failed to load image");
-//                                 }
-
-//                                 SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
-//                                 SDL_FreeSurface(image);
-//                                 if (texture == NULL) {
-//                                     SDL_ExitWithError("Failed to create texture");
-//                                 }
-
-//                                 SDL_Surface *image2 = SDL_LoadBMP("C:/Users/benab/OneDrive/Documents/Fac/sesame/1ere/sem1/SD+C/mini proj/projs/test0.2/src/assets/moves/move2.bmp");
-//                                 if (image2 == NULL) {
-//                                     SDL_ExitWithError("Failed to load image");
-//                                 }
-
-//                                 SDL_Texture *texture2 = SDL_CreateTextureFromSurface(renderer, image2);
-//                                 SDL_FreeSurface(image2);
-//                                 if (texture2 == NULL) {
-//                                     SDL_ExitWithError("Failed to create texture");
-//                                 }
-//                             for (int x = 0; x < *nb_active_player_move_positions; x++)
-//                             {
-//                                 int pos_i = (*active_player_move_positions+x)->i;
-//                                 int pos_j = (*active_player_move_positions+x)->j;
-//                                 printf("pos_i=%d pos_j=%d \n", pos_i,pos_j);
-                               
-//                             //find the soldier that has the position pos_i,pos_j
-                    
-//                                     if (soldier->team.name == 'A')
-//                                     {
-//                                         printf("soldier team: %c\n",soldier->team.name);
-//                                         if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
-//                                                                     SDL_DestroyRenderer(renderer);
-//                                                                     SDL_ExitWithError("Failed to render texture");
-//                                                                 }
-//                                     }
-//                                     else if (soldier->team.name == 'B')
-//                                     {
-//                                         printf("soldier team: %c\n",soldier->team.name);
-//                                         if (SDL_RenderCopy(renderer, texture2, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
-//                                                                     SDL_DestroyRenderer(renderer);
-//                                                                     SDL_ExitWithError("Failed to render texture");
-//                                                                 }
-//                                     }
-                                
-
-
-//                                 // if (soldiers[i].team.name == 'A')
-//                                 // {
-//                                 //     if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
-//                                 //                                     SDL_DestroyRenderer(renderer);
-//                                 //                                     SDL_ExitWithError("Failed to render texture");
-//                                 //                                 }
-//                                 // }
-//                                 // else if (soldiers[i].team.name == 'B')
-//                                 // {
-//                                 //     if (SDL_RenderCopy(renderer, texture, NULL, &board_Matrice_sdlRect[pos_i][pos_j]) != 0) {
-//                                 //                                     SDL_DestroyRenderer(renderer);
-//                                 //                                     SDL_ExitWithError("Failed to render texture");
-//                                 //                                 }
-//                                 // }
-
-//                             }
-//                             // Update the screen
-//                             SDL_RenderPresent(renderer);
-    
-//   }  }
-
-
 // Callback function to play the audio
 void audio_callback(void *userdata, Uint8 *stream, int len) {
     // userdata is a pointer to the audio buffer we passed
@@ -625,14 +436,14 @@ void move_Soldier(Soldier* soldier,Position new_position,Soldier soldiers[30],Te
         
     }
     
-for (int i = 0; i < 30; i++)
-{
-    if (soldiers[i].position.i == 4 && soldiers[i].position.j == 0)
-    {
-        printf(" pos 4 0 has mov poss=%d\n",has_Soldier_Moving_Possibilities(&soldiers[i],soldiers));
-    }
+// for (int i = 0; i < 30; i++)
+// {
+//     if (soldiers[i].position.i == 4 && soldiers[i].position.j == 0)
+//     {
+//         printf(" pos 4 0 has mov poss=%d\n",has_Soldier_Moving_Possibilities(&soldiers[i],soldiers));
+//     }
     
-}
+// }
 
 
  
@@ -770,7 +581,7 @@ void see_close_Possibilities(Position soldier_pos,Soldier soldiers[30],Position*
     free(*active_player_move_positions);
     *active_player_move_positions = NULL;
     *nb_active_player_move_positions = 0;
-    *active_player_move_positions = malloc(8 *sizeof(Position));
+    *active_player_move_positions = malloc(1 *sizeof(Position));
     if (*active_player_move_positions == NULL) {
         // Handle memory allocation failure
         SDL_ExitWithError("Failed to allocate memory");
@@ -785,11 +596,13 @@ void see_close_Possibilities(Position soldier_pos,Soldier soldiers[30],Position*
             if (soldiers[x].position.i == Near_Positions[y].i && soldiers[x].position.j == Near_Positions[y].j)
             {
                 isOccupied = 1;
+                //check_jump_positions(soldiers, soldier->position, Near_Positions[y].i - soldier->position.i, Near_Positions[y].j - soldier->position.j,active_player_move_positions,nb_active_player_move_positions);
                 break;
             }
         }
         if (!isOccupied)
         {
+            *active_player_move_positions = realloc(*active_player_move_positions, (*nb_active_player_move_positions + 1) * sizeof(Position));
             
             (*active_player_move_positions + *nb_active_player_move_positions)->i = Near_Positions[y].i;
             (*active_player_move_positions + *nb_active_player_move_positions)->j = Near_Positions[y].j;
@@ -805,77 +618,121 @@ void see_close_Possibilities(Position soldier_pos,Soldier soldiers[30],Position*
 
 
 
+///////// new jump possiblities /////////////
+int is_valid_position(int i, int j) {
+    return i >= 0 && i < 10 && j >= 0 && j < 10;
+}
+
+int is_position_empty(Soldier soldiers[], int num_soldiers, Position pos) {
+    for (int i = 0; i < num_soldiers; i++) {
+        if (soldiers[i].position.i == pos.i && soldiers[i].position.j == pos.j) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+// void check_jump_positions(Soldier soldiers[30], Position pos, int di, int dj,Position** active_player_move_positions,int* nb_active_player_move_positions) {
+//     int nb_soldiers = 30;
+//     Position next_pos = {pos.i + di, pos.j + dj};
+
+//     if (!is_valid_position(next_pos.i, next_pos.j)) {
+//         return;
+//     }
+
+//     if (!is_position_empty(soldiers, nb_soldiers, next_pos)) {
+//         Position next_next_pos = {next_pos.i + di, next_pos.j + dj};
+//         if (is_valid_position(next_next_pos.i, next_next_pos.j) && is_position_empty(soldiers, nb_soldiers, next_next_pos)) {
+//             // The next position is occupied, but the position after that is empty.
+//             // Do something here.
+//             *active_player_move_positions = realloc(*active_player_move_positions, (*nb_active_player_move_positions + 1) * sizeof(Position));
+            
+//             (*active_player_move_positions)[*nb_active_player_move_positions].i = next_next_pos.i;
+//             (*active_player_move_positions)[*nb_active_player_move_positions].j = next_next_pos.j;
+
+//             // Increment the number of positions
+//             (*nb_active_player_move_positions)++;
+
+//             // Then, check the positions near next_next_pos.
+//             check_jump_positions(soldiers, next_next_pos, di, dj,active_player_move_positions,nb_active_player_move_positions);
+//         } 
+//     }
+// }
 
 
 
 
+// void find_all_jump_positions(Soldier soldiers[30], Position pos, Position** active_player_move_positions, int* nb_active_player_move_positions) {
+//     // Call the recursive function
+//     check_jump_positions(soldiers, pos, -1, -1, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, -1, 0, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, -1, 1, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, 0, -1, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, 0, 1, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, 1, -1, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, 1, 0, active_player_move_positions, nb_active_player_move_positions);
+//     check_jump_positions(soldiers, pos, 1, 1, active_player_move_positions, nb_active_player_move_positions);
+   
+// }
 
-/////////::: test ::::////////////
-// See soldier moving possibilities
-int test_move_pos(Position soldier_pos,Soldier soldiers[30],Position* active_player_move_positions,int* nb_active_player_move_positions) {
-    //nchf lblayes li les9in fiha ferghin wale 
-    int i=soldier_pos.i;
-    int j=soldier_pos.j;
-    Position Near_Positions[8];
-    Near_Positions[0].i=i-1;
-    Near_Positions[0].j=j;
 
-    Near_Positions[1].i=i+1;
-    Near_Positions[1].j=j;
 
-    Near_Positions[2].i=i;
-    Near_Positions[2].j=j-1;
+void check_jump_positions(Soldier soldiers[30], Position pos, int directions[8][2], int num_directions, Position** active_player_move_positions, int* nb_active_player_move_positions) {
+    int nb_soldiers = 30;
 
-    Near_Positions[3].i=i;
-    Near_Positions[3].j=j+1;
+    for (int d = 0; d < num_directions; d++) {
+        int di = directions[d][0];
+        int dj = directions[d][1];
 
-    Near_Positions[4].i=i+1;
-    Near_Positions[4].j=j+1;
+        Position next_pos = {pos.i + di, pos.j + dj};
 
-    Near_Positions[5].i=i-1;
-    Near_Positions[5].j=j+1;
+        if (!is_valid_position(next_pos.i, next_pos.j)) {
+            continue;
+        }
 
-    Near_Positions[6].i=i+1;
-    Near_Positions[6].j=j-1;
+        if (!is_position_empty(soldiers, nb_soldiers, next_pos)) {
+            Position next_next_pos = {next_pos.i + di, next_pos.j + dj};
+            if (is_valid_position(next_next_pos.i, next_next_pos.j) && is_position_empty(soldiers, nb_soldiers, next_next_pos)) {
+                // The next position is occupied, but the position after that is empty.
+                // Add the next_next_pos to the array of active player move positions.
 
-    Near_Positions[7].i=i-1;
-    Near_Positions[7].j=j-1;
+                //check if the position already exists in the array
+                int position_exists = 0;
+                for (int i = 0; i < *nb_active_player_move_positions; i++)
+                {
+                    if ((*active_player_move_positions)[i].i == next_next_pos.i && (*active_player_move_positions)[i].j == next_next_pos.j)
+                    {
+                        position_exists = 1;
+                        break;
+                    }
+                }
 
-    *nb_active_player_move_positions=0;
-    for (int i = 0; i < 30; i++)
-    {
-        for (int j = 0; j < 8; j++)
-        {
-            if (soldiers[i].position.i!=Near_Positions[j].i && soldiers[i].position.j!=Near_Positions[j].j)
-            {
-                active_player_move_positions = malloc(sizeof(Position));
-                active_player_move_positions[*nb_active_player_move_positions]=Near_Positions[j];
-                *nb_active_player_move_positions+=1;
+                if (!position_exists) {
+                    *active_player_move_positions = realloc(*active_player_move_positions, (*nb_active_player_move_positions + 1) * sizeof(Position));
+
+                    (*active_player_move_positions)[*nb_active_player_move_positions].i = next_next_pos.i;
+                    (*active_player_move_positions)[*nb_active_player_move_positions].j = next_next_pos.j;
+
+                    // Increment the number of positions
+                    (*nb_active_player_move_positions)++;
+
+                    // Recursively check positions near next_next_pos
+                    check_jump_positions(soldiers, next_next_pos, directions, num_directions, active_player_move_positions, nb_active_player_move_positions);
+                }
             }
         }
-        
     }
-    
-  return *nb_active_player_move_positions;  
+}
+
+void find_all_jump_positions(Soldier soldiers[30], Position pos, Position** active_player_move_positions, int* nb_active_player_move_positions) {
+    int directions[8][2] = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
+    int num_directions = 8;
+
+
+    // Call the recursive function with all possible directions
+    check_jump_positions(soldiers, pos, directions, num_directions, active_player_move_positions, nb_active_player_move_positions);
 }
 
 
- void printTest(Position* active_player_move_positions,int* nb_active_player_move_positions){
-     active_player_move_positions = malloc(sizeof(Position));
-                                if (active_player_move_positions == NULL)
-                                {
-                                    // Handle memory allocation failure
-                                    SDL_ExitWithError("Failed to allocate memory");
-                                }
 
-                                active_player_move_positions->i = 5;
-                                active_player_move_positions->j = 5;
 
-                                (active_player_move_positions+1)->i=4;
-                                (active_player_move_positions+1)->j=4;
-
-                                printf("i active_player_move_positions=%d\n", (active_player_move_positions+1)->i);
-
-                                // Remember to free the allocated memory when you're done using it
-                                free(active_player_move_positions);
- }

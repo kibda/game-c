@@ -39,9 +39,7 @@ int check_team_took_other_team_positions(Soldier soldiers[30],Team* team_A,Team*
 // new check close possibilities
 void see_close_Possibilities(Position soldier_pos,Soldier soldiers[30],Position** active_player_move_positions,int* nb_active_player_move_positions,SDL_Rect board_Matrice_sdlRect[10][10],Soldier* soldier);
 
-    ///test
-    int test_move_pos(Position soldier_pos,Soldier soldiers[30],Position* active_player_move_positions,int* nb_active_player_move_positions) ;
+void check_jump_positions(Soldier soldiers[30], Position pos, int directions[8][2], int num_directions, Position** active_player_move_positions, int* nb_active_player_move_positions);
 
-    void printTest(Position* active_player_move_positions,int* nb_active_player_move_positions);
-
+void find_all_jump_positions(Soldier soldiers[30], Position pos, Position** active_player_move_positions, int* nb_active_player_move_positions);
 #endif // SOLDIER_H

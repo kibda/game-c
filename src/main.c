@@ -13,13 +13,6 @@
 #define WINDOW_WIDTH 650
 #define WINDOW_HEIGHT 650
 
-/*
-    SDL_RENDERER_SOFTWARE      => bch ykhdem m3a el processor mch GC
-    SDL_RENDERER_ACCELERATED   => material acceleration kn nheb nst3ml graphic card wela haja
-    SDL_RENDERER_PRESENTVSYNC  => vertical synchronization
-    SDL_RENDERER_TARGETTEXTURE => nrendri hasb texture mou3ayna
-*/
-
 
 //init teams
 Team team_A = {'A', "GREEN", NULL};
@@ -186,6 +179,7 @@ for (int i = 0; i < 15; i++)
                                          free(active_player_move_positions);
                                             active_player_move_positions=NULL;
                                             see_close_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,&active_soldier);
+                                           find_all_jump_positions(soldiers,position_activated,&active_player_move_positions,&nb_active_player_move_positions);
                                             //print all possibilities
                                                     for (int zzz = 0; zzz < nb_active_player_move_positions; zzz++)
                                                     {
@@ -268,6 +262,7 @@ for (int i = 0; i < 15; i++)
                                             free(active_player_move_positions);
                                             active_player_move_positions=NULL;
                                             see_close_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,board_Matrice_sdlRect,&active_soldier);
+                                            find_all_jump_positions(soldiers,position_activated,&active_player_move_positions,&nb_active_player_move_positions);                                             
                                                     //print all possibilities
                                                     for (int zzz = 0; zzz < nb_active_player_move_positions; zzz++)
                                                     {
@@ -291,77 +286,7 @@ for (int i = 0; i < 15; i++)
                                     
                                     
 
-                                 } 
-                                 
-                                 
-                                 
-                                
-
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                //clear renderer
-                                // SDL_RenderClear(renderer);
-                                
-                                //printTest(active_player_move_positions,nb_active_player_move_positions);
-
-                                //test if the position clicked is one of the active player move positions
-                                // int position_activated_is_active_player_move_position=0;
-                                // for (int i = 0; i < nb_active_player_move_positions; i++)
-                                // {
-                                //     if(position_activated.i==active_player_move_positions[i].i && position_activated.j==active_player_move_positions[i].j){
-                                //         position_activated_is_active_player_move_position=1;
-                                //         break;
-                                //     }
-                                // }
-                                // //test if the position clicked is anothyer soldier position
-                                // int position_activated_is_another_soldier_position=0;
-                                // for (int i = 0; i < 30; i++)
-                                // {
-                                //     if(position_activated.i==soldiers[i].position.i && position_activated.j==soldiers[i].position.j){
-                                //         position_activated_is_another_soldier_position=1;
-                                //         break;
-                                //     }
-                                // }
-
-                                // if(move_positions_activated==1 && position_activated_is_active_player_move_position ){
-                                    
-                                //     move_Soldier(&active_soldier,position_activated,soldiers);
-                                //     redraw_game(soldiers,board_Matrice_sdlRect,renderer,window);
-                                //     move_positions_activated=0;
-                                //     active_soldier.team.name = 'X';
-                                //     active_soldier.position.i = 0;
-                                //     active_soldier.position.j = 0;
-                                // }else if(move_positions_activated==0 ){
-                                //     //step 3 : check if the soldier clicked on has moving possibilities
-                                //     see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect,window,&active_soldier);
-                                //     if (active_soldier.team.name!='X')
-                                //     {
-                                //         move_positions_activated=1;
-                                //         //position_activated_is_another_soldier_position==0;
-                                //     }
-                                    
-                                    
-                                    
-                                // }
-
-                                    
-                                
-                               // see_Soldier_Moving_Possibilities(position_activated,soldiers,&active_player_move_positions,&nb_active_player_move_positions,renderer,board_Matrice_sdlRect,window);
-                                // for (int i = 0; i < *nb_active_player_move_positions; i++)
-                                // {
-                                //     printf("active_player_move_positions[%d] : %d %d\n",i,active_player_move_positions[i].i,active_player_move_positions[i].j);
-                                // }
-                                // printf("nb_active_player_move_positions : %d\n",*nb_active_player_move_positions);
-                            //    printf("nb_active_player_move_positions 2 : %d\n", nb_active_player_move_positions);
-                            //     printf("i active_player_move_positions 1=%d\n", (active_player_move_positions)->i);
-                            
-                          
-                        //    free(active_player_move_positions);  
+                                 }  
                                 break;
                             }
                         }
