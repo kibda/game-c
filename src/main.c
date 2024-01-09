@@ -4,7 +4,6 @@
 
 //myfiles game
 #include "board/board.h"
-#include "player/player.h"
 #include "game/game.h"
 #include "soldier/soldier.h"
 //myfiles utils
@@ -17,9 +16,7 @@
 //init teams
 Team team_A = {'A', "GREEN", NULL};
 Team team_B = {'B', "RED", NULL};
-// Team allTeams[2];
-// allTeams[0] = teamA;
-// allTeams[1] = teamB;
+
 
 int game_on=1;
 
@@ -29,6 +26,10 @@ Position* active_player_move_positions=NULL;
 Team active_player_team={'A', "GREEN", NULL};
 int move_positions_activated=0;
 Soldier active_soldier={{'X', "X", NULL},{0,0}};
+
+
+
+
 
 
 
@@ -57,6 +58,7 @@ int main(int argc, char **argv) {
 //----MAIN CODE HERE----------------------------------------------------------------
 
 
+
     //--create the window and the renderer----------------------------------------------------------------
 if (SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer) != 0)
 {
@@ -83,6 +85,19 @@ for (int i = 0; i < 15; i++)
 {
     printf("teamA position : %d %d\n",team_A.TeamCamp[i].i,team_A.TeamCamp[i].j);
 }
+
+
+
+
+
+
+////// music 
+
+
+
+
+
+
  
 
 
@@ -302,6 +317,7 @@ for (int i = 0; i < 15; i++)
 
 
 //-------------------------------------------------------------
+    // SDL_CloseAudioDevice(audioDevice);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit(); // free allocated memory in the SDL PROJECT file
@@ -322,5 +338,4 @@ for (int i = 0; i < 15; i++)
 // bin/prog.exe
 
 //lezm nincludi l .c lkol 
-
-//gcc src/utils/utils.c src/board/board.c src/player/player.c src/soldier/soldier.c src/game/game.c src/main.c -o bin/prog -I include -L lib -lmingw32 -lSDL2main -lSDL2
+//gcc src/utils/utils.c src/board/board.c  src/soldier/soldier.c src/game/game.c src/main.c -o bin/prog -I include -L lib -lmingw32 -lSDL2main -lSDL2

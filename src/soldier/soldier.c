@@ -632,6 +632,76 @@ int is_position_empty(Soldier soldiers[], int num_soldiers, Position pos) {
     return 1;
 }
 
+
+
+void check_jump_positions(Soldier soldiers[30], Position pos, int directions[8][2], int num_directions, Position** active_player_move_positions, int* nb_active_player_move_positions) {
+    int nb_soldiers = 30;
+
+    for (int d = 0; d < num_directions; d++) {
+        int di = directions[d][0];
+        int dj = directions[d][1];
+
+        Position next_pos = {pos.i + di, pos.j + dj};
+
+        // pos mawjouda f west el board wala la
+        if (!is_valid_position(next_pos.i, next_pos.j)) {
+            continue;
+        }
+
+        //ken mawjoud fiha soldier
+        if (!is_position_empty(soldiers, nb_soldiers, next_pos)) {
+            Position next_next_pos = {next_pos.i + di, next_pos.j + dj}; //pos li ba3d next_pos fi direction t3 tanguiza li 9balha
+            if (is_valid_position(next_next_pos.i, next_next_pos.j) && is_position_empty(soldiers, nb_soldiers, next_next_pos)) {
+                //the next position is occupied bsoldier ama lposition after that is empty
+                //naddi next_next_pos to the array of active player move positions
+
+                //check if the position already exists in the array activeplayermove...
+                int position_exists = 0;
+                for (int i = 0; i < *nb_active_player_move_positions; i++)
+                {
+                    if ((*active_player_move_positions)[i].i == next_next_pos.i && (*active_player_move_positions)[i].j == next_next_pos.j)
+                    {
+                        position_exists = 1;
+                        break;
+                    }
+                }
+
+                if (!position_exists) {
+                    *active_player_move_positions = realloc(*active_player_move_positions, (*nb_active_player_move_positions + 1) * sizeof(Position));
+
+                    (*active_player_move_positions)[*nb_active_player_move_positions].i = next_next_pos.i;
+                    (*active_player_move_positions)[*nb_active_player_move_positions].j = next_next_pos.j;
+
+                    
+                    (*nb_active_player_move_positions)++;
+
+                    // y3awed test 3l position ejdida 
+                    check_jump_positions(soldiers, next_next_pos, directions, num_directions, active_player_move_positions, nb_active_player_move_positions);
+                }
+            }
+        }
+    }
+}
+
+void find_all_jump_positions(Soldier soldiers[30], Position pos, Position** active_player_move_positions, int* nb_active_player_move_positions) {
+    int directions[8][2] = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
+    int num_directions = 8;
+
+
+    // Call the recursive function with all possible directions
+    check_jump_positions(soldiers, pos, directions, num_directions, active_player_move_positions, nb_active_player_move_positions);
+}
+
+
+
+
+
+
+
+
+
+
+//////////// comments old code could be useful if smth happened //////////////
 // void check_jump_positions(Soldier soldiers[30], Position pos, int di, int dj,Position** active_player_move_positions,int* nb_active_player_move_positions) {
 //     int nb_soldiers = 30;
 //     Position next_pos = {pos.i + di, pos.j + dj};
@@ -674,65 +744,5 @@ int is_position_empty(Soldier soldiers[], int num_soldiers, Position pos) {
 //     check_jump_positions(soldiers, pos, 1, 1, active_player_move_positions, nb_active_player_move_positions);
    
 // }
-
-
-
-void check_jump_positions(Soldier soldiers[30], Position pos, int directions[8][2], int num_directions, Position** active_player_move_positions, int* nb_active_player_move_positions) {
-    int nb_soldiers = 30;
-
-    for (int d = 0; d < num_directions; d++) {
-        int di = directions[d][0];
-        int dj = directions[d][1];
-
-        Position next_pos = {pos.i + di, pos.j + dj};
-
-        if (!is_valid_position(next_pos.i, next_pos.j)) {
-            continue;
-        }
-
-        if (!is_position_empty(soldiers, nb_soldiers, next_pos)) {
-            Position next_next_pos = {next_pos.i + di, next_pos.j + dj};
-            if (is_valid_position(next_next_pos.i, next_next_pos.j) && is_position_empty(soldiers, nb_soldiers, next_next_pos)) {
-                // The next position is occupied, but the position after that is empty.
-                // Add the next_next_pos to the array of active player move positions.
-
-                //check if the position already exists in the array
-                int position_exists = 0;
-                for (int i = 0; i < *nb_active_player_move_positions; i++)
-                {
-                    if ((*active_player_move_positions)[i].i == next_next_pos.i && (*active_player_move_positions)[i].j == next_next_pos.j)
-                    {
-                        position_exists = 1;
-                        break;
-                    }
-                }
-
-                if (!position_exists) {
-                    *active_player_move_positions = realloc(*active_player_move_positions, (*nb_active_player_move_positions + 1) * sizeof(Position));
-
-                    (*active_player_move_positions)[*nb_active_player_move_positions].i = next_next_pos.i;
-                    (*active_player_move_positions)[*nb_active_player_move_positions].j = next_next_pos.j;
-
-                    // Increment the number of positions
-                    (*nb_active_player_move_positions)++;
-
-                    // Recursively check positions near next_next_pos
-                    check_jump_positions(soldiers, next_next_pos, directions, num_directions, active_player_move_positions, nb_active_player_move_positions);
-                }
-            }
-        }
-    }
-}
-
-void find_all_jump_positions(Soldier soldiers[30], Position pos, Position** active_player_move_positions, int* nb_active_player_move_positions) {
-    int directions[8][2] = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
-    int num_directions = 8;
-
-
-    // Call the recursive function with all possible directions
-    check_jump_positions(soldiers, pos, directions, num_directions, active_player_move_positions, nb_active_player_move_positions);
-}
-
-
 
 

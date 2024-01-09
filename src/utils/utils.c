@@ -7,3 +7,4 @@
     SDL_Quit();
        exit(EXIT_FAILURE);
  } 
+
