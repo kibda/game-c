@@ -317,7 +317,7 @@ for (int i = 0; i < 15; i++)
 
 
 //-------------------------------------------------------------
-    // SDL_CloseAudioDevice(audioDevice);
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit(); // free allocated memory in the SDL PROJECT file
