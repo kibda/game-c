@@ -31,6 +31,7 @@ typedef struct Soldier {
     void move_Soldier(struct Soldier* soldier,Position new_position,Soldier soldiers[30],Team* team_A,Team* team_B,SDL_Renderer *renderer,SDL_Window *window,int* game_on);
 
 
+
     void place_soldiers(Soldier soldiers[30],SDL_Window *window,SDL_Renderer *renderer,SDL_Rect board_Matrice_sdlRect[10][10]);
 
     int check_team_took_other_team_positions(Soldier soldiers[30],Team* team_A,Team* team_B,Team active_team);
